@@ -18,28 +18,45 @@
     <h1>[[ russian ]]</h1>
     
     <br />
+    
+    <div data-ng-class="{'invisible': !show_italian}" data-ng-cloak>
+    
+        <h4><span class="glyphicon glyphicon-arrow-down"></span></h4>
+        <h1>[[ italian ]]</h1>
+    
+    </div>
+    
+    
+    <br />
+    <br />
+    
     <p>
+        <div data-ng-hide="show_italian">
         <button type="button"
             class="btn btn-primary btn-lg"
             data-ng-click="show_italian=!show_italian">
         Visualizza traduzione
         </button>
-    </p>
-    
-    <h1><div data-ng-class="{'invisible': !show_italian}" data-ng-cloak>[[ italian ]]</div></h1>
-    
-    <br />
-    <br />
-    <br />
-    
-    <p>
+        </div>
+        
+        <div data-ng-show="show_italian">
         <button type="button"
             class="btn btn-success btn-lg"
             data-ng-click="getWord()">
         Lemma successivo
         </button>
+        </div>
     </p>
 </div>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<p class="text-center text-danger"><span class="glyphicon glyphicon-warning-sign"></span> Questa applicazione non è da considerarsi come alternativa ad un corso di russo sano ed equilibrato.</p>
 
 </div>
 
