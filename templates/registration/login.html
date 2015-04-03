@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>Login</h1>
+</div>
+
+{% if form.errors %}
+<div class="alert alert-danger" role="alert">Credenziali non valide. Si prega di riprovare.</div>
+{% endif %}
+
+<form method="post" action="{% url 'django.contrib.auth.views.login' %}" autocomplete="on" role="form" class="form-horizontal">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="{{ form.username.id_for_label }}">Username:</label>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="{{ form.username.id_for_label }}" maxlength="254" name="username" placeholder="Inserire username" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="{{ form.password.id_for_label }}">Password:</label>
+        <div class="col-sm-3">
+            <input type="password" class="form-control" id="{{ form.password.id_for_label }}" name="password" placeholder="Inserire password" />
+        </div>
+    </div>
+
+    <div class="form-group">        
+        <div class="col-sm-offset-2 col-sm-3">
+            <button type="submit" class="btn btn-default" value="login">Login</button>
+        </div>
+    </div>
+
+    <input type="hidden" name="next" value="{{ next }}" />
+</form>
+
+{% endblock %}

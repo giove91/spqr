@@ -10,9 +10,17 @@ from django.views.generic import ListView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
+from django.contrib.auth import logout
+
 from models import Word
 
 import random
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('wordview')
+
 
 
 class WordView(View):
@@ -24,7 +32,7 @@ class WordView(View):
         
         context = {'word': word}
         
-        return render_to_response('word.html', context)
+        return render(request, 'word.html', context)
 
 
 

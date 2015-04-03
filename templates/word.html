@@ -7,10 +7,6 @@
 
 <div data-ng-app="word">
 
-<div class="page-header">
-    <h1>SPQR <small>So Parlare (Quasi) Russo!</small></h1>      
-</div>
-
 
 <div data-ng-controller="WordController" class="text-center">
     
@@ -42,7 +38,8 @@
         <div data-ng-show="show_italian">
         <button type="button"
             class="btn btn-success btn-lg"
-            data-ng-click="getWord()">
+            data-ng-click="getWord()"
+            data-ng-disabled="requesting">
         Lemma successivo
         </button>
         </div>
@@ -56,7 +53,7 @@
 <br />
 <br />
 
-<p class="text-center text-danger"><span class="glyphicon glyphicon-warning-sign"></span> Questa applicazione non è da considerarsi come alternativa ad un corso di russo sano ed equilibrato.</p>
+<p class="text-center text-danger"><span class="glyphicon glyphicon-alert"></span> Questa applicazione non è da considerarsi come alternativa ad un corso di russo sano ed equilibrato.</p>
 
 </div>
 
