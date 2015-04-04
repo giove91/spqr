@@ -6,5 +6,6 @@ from views import *
 urlpatterns = patterns('',
     url(r'^$', WordView.as_view(), name='wordview'),
     url(r'getword/$', GetWordView.as_view(), name='getwordview'),
+    url(r'settings/$', SettingsView.as_view(), name='settingsview'),
 )
 

@@ -26,12 +26,7 @@ def logout_view(request):
 class WordView(View):
     def get(self, request):    
         
-        n = Word.objects.all().count()
-        random_index = random.randint(0, n-1)
-        word = Word.objects.all()[random_index]
-        
-        context = {'word': word}
-        
+        context = {}
         return render(request, 'word.html', context)
 
 
@@ -49,4 +44,12 @@ class GetWordView(View):
         }
         
         return JsonResponse(data)
+
+
+class SettingsView(View):
+    def get(self, request):    
+        
+        context = {}
+        return render(request, 'settings.html', context)
+
 
