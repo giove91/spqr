@@ -8,11 +8,11 @@ from django.views.generic.base import TemplateView
 from django.views.generic import ListView
 
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 from django.contrib.auth import logout
 
-from models import Word
+from models import Word, Keyword
 
 import random
 
@@ -49,7 +49,46 @@ class GetWordView(View):
 class SettingsView(View):
     def get(self, request):    
         
-        context = {}
+        keywords = Keyword.objects.all()
+        
+        settings = request.session.get("settings", None)
+        
+        if settings is not None:
+            chosen_keywords = [k for k in keywords if k.id in settings["chosen_keywords"]]
+            print chosen_keywords
+        else:
+            chosen_keywords = []
+        
+        available_keywords = [k for k in keywords if k not in chosen_keywords]
+        
+        context = {
+            'keywords': keywords,
+            'available_keywords': available_keywords,
+            'chosen_keywords': chosen_keywords,
+        }
         return render(request, 'settings.html', context)
+
+
+class SaveSettingsView(View):
+    
+    def post(self, request):
+        try:
+            data = request.POST
+            chosen_keywords = [int(id) for id in request.POST.getlist('chosen_keywords[]')]
+            
+            request.session["settings"] = {
+                'chosen_keywords': chosen_keywords,
+            }
+            
+            return HttpResponse()
+        
+        except Exception as E:
+            print E
+            return HttpResponse("Error")
+    
+    # FIXME: handle csrf
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super(SaveSettingsView, self).dispatch(*args, **kwargs)
 
 

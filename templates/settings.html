@@ -2,15 +2,67 @@
 
 {% load staticfiles %}
 
+{% block scripts %}
+<script src="{% static 'settings.js' %}"></script>
+{% endblock %}
+
+
 {% block content %}
 
 
-<div data-ng-app="word">
+<div data-ng-app="settings">
+<div data-ng-controller="SettingsController">
+<form role="form" class="form-inline">
 
 
-<div data-ng-controller="WordController" class="text-center">
+<div class="page-header">
+    <h3>Categorie</h3>
+</div>
+
+<div class="row">
+    <div data-ng-init="available_keywords = [{% for keyword in available_keywords %} {id:{{keyword.id}}, keyword:'{{ keyword.keyword }}'}, {% endfor %}]"></div>
+    <div data-ng-init="chosen_keywords = [{% for keyword in chosen_keywords %}{id:{{keyword.id}}, keyword:'{{ keyword.keyword }}'}, {% endfor %}]"></div>
     
+    <div class="col-sm-6">
+        
+        <div class="form-group">
+            <p>
+            <label>Categorie disponibili</label>
+            &nbsp;&nbsp;<input class="form-control" data-ng-model="search.keyword" placeholder="Filtra">
+            <button class="btn btn-default" data-ng-click="search.keyword=''">
+                <span class="glyphicon glyphicon-erase"></span>
+            </button>
+            </p>
+        </div>
+        <div class="scrollable">
+        <div data-ng-repeat="keyword in available_keywords | filter:search | orderBy:'keyword'">
+            <p><button class="btn btn-success btn-xs" data-ng-click="addKeyword(keyword)">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button> &nbsp;[[ keyword.keyword ]]</p>
+        </div>
+        </div>
+        
+    </div>
+    
+    <div class="col-sm-6">
+        
+        <p><label>Categorie scelte</label></p>
+        
+        <div class="scrollable">
+        <div data-ng-repeat="keyword in chosen_keywords | orderBy:'keyword'">
+            <p><button class="btn btn-danger btn-xs" data-ng-click="removeKeyword(keyword)">
+                <span class="glyphicon glyphicon-minus"></span>
+            </button> &nbsp;[[ keyword.keyword ]]</p>
+        </div>
+        </div>
+    </div>
+</div>
 
+
+
+<p><button class="btn btn-default" data-ng-click="saveSettings()">Salva</button></p>
+
+</form>
 </div>
 </div>
 

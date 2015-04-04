@@ -2,8 +2,12 @@
 
 {% load staticfiles %}
 
-{% block content %}
+{% block scripts %}
+<script src="{% static 'word.js' %}"></script>
+{% endblock %}
 
+
+{% block content %}
 
 <div data-ng-app="word">
 
