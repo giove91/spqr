@@ -19,6 +19,17 @@
     <h3>Categorie</h3>
 </div>
 
+<div class="form-group">
+<label>Tipologia di selezione</label>
+    <div data-ng-init="filter_type = '{{ filter_type }}'"></div>
+    <label class="radio-inline">
+      <input type="radio" value="and" data-ng-model="filter_type">And
+    </label>
+    <label class="radio-inline">
+      <input type="radio" value="or" data-ng-model="filter_type">Or
+    </label>
+</div>
+
 <div class="row">
     <div data-ng-init="available_keywords = [{% for keyword in available_keywords %} {id:{{keyword.id}}, keyword:'{{ keyword.keyword }}'}, {% endfor %}]"></div>
     <div data-ng-init="chosen_keywords = [{% for keyword in chosen_keywords %}{id:{{keyword.id}}, keyword:'{{ keyword.keyword }}'}, {% endfor %}]"></div>
@@ -60,7 +71,12 @@
 
 
 
-<p><button class="btn btn-default" data-ng-click="saveSettings()">Salva</button></p>
+<p>
+    <button class="btn btn-default" data-ng-click="saveSettings()" data-ng-disabled="requesting">Salva</button>
+    <span class="glyphicon glyphicon-refresh" data-ng-show="requesting"></span>
+    <span class="glyphicon glyphicon-ok" data-ng-show="!requesting && success && saved"></span>
+    <span class="glyphicon glyphicon-remove" data-ng-show="!requesting && !success && saved"></span>
+</p>
 
 </form>
 </div>

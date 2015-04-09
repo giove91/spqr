@@ -17,20 +17,32 @@ app.controller("SettingsController", function($scope, $http, $element) {
         $scope.available_keywords.push(keyword);
     };
     
+    $scope.requesting = false;
+    $scope.success = true;
+    $scope.saved = false;
+    
     $scope.saveSettings = function() {
         keywords_ids = []
         for (i=0; i<$scope.chosen_keywords.length; i++) {
             keywords_ids.push($scope.chosen_keywords[i].id);
         }
+        $scope.requesting = true;
         
         $.ajax({
             url: "/words/savesettings/",
             type: "POST",
             data: {
                 chosen_keywords: keywords_ids,
+                filter_type: $scope.filter_type,
             },
             cache: false
         }).success( function(data) {
+            if (data == "Error") $scope.success = false;
+            else $scope.success = true;
+            
+            $scope.requesting = false;
+            $scope.saved = true;
+            $scope.$apply();
         });
     }
     

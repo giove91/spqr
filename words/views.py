@@ -55,9 +55,10 @@ class SettingsView(View):
         
         if settings is not None:
             chosen_keywords = [k for k in keywords if k.id in settings["chosen_keywords"]]
-            print chosen_keywords
+            filter_type = settings["filter_type"]
         else:
             chosen_keywords = []
+            filter_type = "or"
         
         available_keywords = [k for k in keywords if k not in chosen_keywords]
         
@@ -65,6 +66,7 @@ class SettingsView(View):
             'keywords': keywords,
             'available_keywords': available_keywords,
             'chosen_keywords': chosen_keywords,
+            'filter_type': filter_type,
         }
         return render(request, 'settings.html', context)
 
@@ -75,12 +77,14 @@ class SaveSettingsView(View):
         try:
             data = request.POST
             chosen_keywords = [int(id) for id in request.POST.getlist('chosen_keywords[]')]
+            filter_type = request.POST['filter_type']
             
             request.session["settings"] = {
                 'chosen_keywords': chosen_keywords,
+                'filter_type': filter_type,
             }
             
-            return HttpResponse()
+            return HttpResponse("OK")
         
         except Exception as E:
             print E
