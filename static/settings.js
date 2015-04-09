@@ -20,6 +20,7 @@ app.controller("SettingsController", function($scope, $http, $element) {
     $scope.requesting = false;
     $scope.success = true;
     $scope.saved = false;
+    $scope.no_words = false;
     
     $scope.saveSettings = function() {
         keywords_ids = []
@@ -39,6 +40,9 @@ app.controller("SettingsController", function($scope, $http, $element) {
         }).success( function(data) {
             if (data == "Error") $scope.success = false;
             else $scope.success = true;
+            
+            if (data == "0") $scope.no_words = true;
+            else $scope.no_words = false;
             
             $scope.requesting = false;
             $scope.saved = true;

@@ -19,6 +19,12 @@
     <h3>Categorie</h3>
 </div>
 
+<div data-ng-init="no_words = '{{ no_words }}'"></div>
+<div class="alert alert-danger" role="alert" data-ng-show="no_words">
+Non ci sono parole che corrispondano ai parametri scelti.
+</div>
+
+<p>
 <div class="form-group">
 <label>Tipologia di selezione</label>
     <div data-ng-init="filter_type = '{{ filter_type }}'"></div>
@@ -29,7 +35,9 @@
       <input type="radio" value="or" data-ng-model="filter_type">Or
     </label>
 </div>
+</p>
 
+<p>
 <div class="row">
     <div data-ng-init="available_keywords = [{% for keyword in available_keywords %} {id:{{keyword.id}}, keyword:'{{ keyword.keyword }}'}, {% endfor %}]"></div>
     <div data-ng-init="chosen_keywords = [{% for keyword in chosen_keywords %}{id:{{keyword.id}}, keyword:'{{ keyword.keyword }}'}, {% endfor %}]"></div>
@@ -68,7 +76,7 @@
         </div>
     </div>
 </div>
-
+</p>
 
 
 <p>
@@ -77,6 +85,8 @@
     <span class="glyphicon glyphicon-ok" data-ng-show="!requesting && success && saved"></span>
     <span class="glyphicon glyphicon-remove" data-ng-show="!requesting && !success && saved"></span>
 </p>
+
+
 
 </form>
 </div>

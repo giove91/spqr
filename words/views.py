@@ -12,15 +12,47 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 from django.contrib.auth import logout
 
+from django.db.models import Q
+
 from models import Word, Keyword
 
 import random
 
 
+def get_settings(request):
+    default_settings = {
+        'chosen_keywords': [],
+        'filter_type': "or",
+    }
+    return request.session.get("settings", default_settings)
+
+
+def get_queryset(request):
+    """
+    Returns the queryset of words, according to the settings stored in the session.
+    """
+    settings = get_settings(request)
+    
+    if len(settings['chosen_keywords']) == 0:
+        queryset = Word.objects.all()
+    elif settings['filter_type'] == 'and':
+        queryset = Word.objects.all()
+        for k_id in settings['chosen_keywords']:
+            queryset = queryset.filter(keywords__pk=k_id)
+    elif settings['filter_type'] == 'or':
+        q = Q()
+        for k_id in settings['chosen_keywords']:
+            q = q | Q(keywords__pk=k_id)
+        queryset = Word.objects.filter(q)
+    else:
+        raise NotImplementedError
+    
+    return queryset
+
+
 def logout_view(request):
     logout(request)
     return redirect('wordview')
-
 
 
 class WordView(View):
@@ -34,9 +66,15 @@ class WordView(View):
 class GetWordView(View):
     def get(self, request):
         
-        n = Word.objects.all().count()
+        queryset = get_queryset(request)
+        
+        n = queryset.count()
+        if n == 0:
+            queryset = Word.objects.all()
+            n = queryset.count()
+        
         random_index = random.randint(0, n-1)
-        word = Word.objects.all()[random_index]
+        word = queryset[random_index]
         
         data = {
             'russian': word.russian,
@@ -51,14 +89,11 @@ class SettingsView(View):
         
         keywords = Keyword.objects.all()
         
-        settings = request.session.get("settings", None)
+        settings = get_settings(request)
+        count = get_queryset(request).count()
         
-        if settings is not None:
-            chosen_keywords = [k for k in keywords if k.id in settings["chosen_keywords"]]
-            filter_type = settings["filter_type"]
-        else:
-            chosen_keywords = []
-            filter_type = "or"
+        chosen_keywords = [k for k in keywords if k.id in settings["chosen_keywords"]]
+        filter_type = settings["filter_type"]
         
         available_keywords = [k for k in keywords if k not in chosen_keywords]
         
@@ -67,6 +102,7 @@ class SettingsView(View):
             'available_keywords': available_keywords,
             'chosen_keywords': chosen_keywords,
             'filter_type': filter_type,
+            'no_words': count == 0,
         }
         return render(request, 'settings.html', context)
 
@@ -84,7 +120,8 @@ class SaveSettingsView(View):
                 'filter_type': filter_type,
             }
             
-            return HttpResponse("OK")
+            queryset = get_queryset(request)
+            return HttpResponse(queryset.count())
         
         except Exception as E:
             print E
