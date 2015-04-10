@@ -39,8 +39,8 @@ Non ci sono parole che corrispondano ai parametri scelti.
 
 <p>
 <div class="row">
-    <div data-ng-init="available_keywords = [{% for keyword in available_keywords %} {id:{{keyword.id}}, keyword:'{{ keyword.keyword }}'}, {% endfor %}]"></div>
-    <div data-ng-init="chosen_keywords = [{% for keyword in chosen_keywords %}{id:{{keyword.id}}, keyword:'{{ keyword.keyword }}'}, {% endfor %}]"></div>
+    <div data-ng-init="available_keywords = [{% for keyword in available_keywords %} {id:{{keyword.id}}, keyword:'{{ keyword.keyword }}', type:'{{keyword.type}}'}, {% endfor %}]"></div>
+    <div data-ng-init="chosen_keywords = [{% for keyword in chosen_keywords %}{id:{{keyword.id}}, keyword:'{{ keyword.keyword }}', type:'{{keyword.type}}'}, {% endfor %}]"></div>
     
     <div class="col-sm-6">
         
@@ -54,7 +54,7 @@ Non ci sono parole che corrispondano ai parametri scelti.
             </p>
         </div>
         <div class="scrollable">
-        <div data-ng-repeat="keyword in available_keywords | filter:search | orderBy:'keyword'">
+        <div data-ng-repeat="keyword in available_keywords | filter:search | orderBy:['type','keyword']">
             <p><button class="btn btn-success btn-xs" data-ng-click="addKeyword(keyword)">
                 <span class="glyphicon glyphicon-plus"></span>
             </button> &nbsp;[[ keyword.keyword ]]</p>
@@ -68,7 +68,7 @@ Non ci sono parole che corrispondano ai parametri scelti.
         <p><label>Categorie scelte</label></p>
         
         <div class="scrollable">
-        <div data-ng-repeat="keyword in chosen_keywords | orderBy:'keyword'">
+        <div data-ng-repeat="keyword in chosen_keywords | orderBy:['type','keyword']">
             <p><button class="btn btn-danger btn-xs" data-ng-click="removeKeyword(keyword)">
                 <span class="glyphicon glyphicon-minus"></span>
             </button> &nbsp;[[ keyword.keyword ]]</p>
