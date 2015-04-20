@@ -17,6 +17,7 @@ from django.db.models import Q
 from models import Word, Keyword
 
 import random
+import csv
 
 
 def get_settings(request):
@@ -131,5 +132,17 @@ class SaveSettingsView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):
         return super(SaveSettingsView, self).dispatch(*args, **kwargs)
+
+
+
+class ExportView(View):
+    def get(self, request):    
+        
+        words = get_queryset(request)
+        
+        context = {
+            'words': words,
+        }
+        return render(request, 'export.csv', context)
 
 

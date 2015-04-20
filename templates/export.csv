@@ -1,0 +1,2 @@
+{% for word in words %}"{{ word.russian }}","{{ word.italian }}",{% for keyword in word.keywords.all %}"{{ keyword.keyword }}",{% endfor %}
+{% endfor %}

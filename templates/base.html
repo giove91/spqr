@@ -66,6 +66,8 @@
         {% url 'settingsview' as settingsview_url %}
         <li class="{% active request settingsview_url %}"><a href="{% url 'settingsview' %}">Opzioni</a></li>
         
+        <li><a href="{% url 'exportview' %}">Esporta</a></li>
+        
         {% if user.is_superuser %}
         <li><a href="/admin/">Amministrazione</a></li>
         {% endif %}
