@@ -7,6 +7,7 @@ class WordAdmin(admin.ModelAdmin):
     filter_horizontal = ('keywords',)
     
     list_display = ('russian', 'italian')
+    list_filter = ('keywords', )
     search_fields = ['russian', 'italian']
 
 class KeywordAdmin(admin.ModelAdmin):
