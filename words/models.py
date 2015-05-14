@@ -1,5 +1,8 @@
 from django.db import models
 
+from django.contrib.auth.models import User
+
+
 class Keyword(models.Model):
     GRAMMAR = 'G'
     SUBJECT = 'S'
@@ -29,4 +32,17 @@ class Word(models.Model):
     
     def __unicode__(self):
         return u'%s' % self.russian
+
+
+class Result(models.Model):
+    user = models.ForeignKey(User)
+    word = models.ForeignKey(Word)
+    
+    num_views = models.IntegerField(default=0)
+    num_correct = models.IntegerField(default=0)
+    
+    def __unicode__(self):
+        return u'Result of %s on %s' % (self.user.username, self.word.russian)
+
+
 
