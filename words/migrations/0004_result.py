@@ -19,8 +19,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('num_views', models.IntegerField(default=0)),
                 ('num_correct', models.IntegerField(default=0)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-                ('word', models.ForeignKey(to='words.Word')),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
+                ('word', models.ForeignKey(to='words.Word', on_delete=models.CASCADE)),
             ],
             options={
             },

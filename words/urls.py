@@ -1,13 +1,13 @@
-from django.conf.urls import patterns, url
+from django.urls import path
 
-from views import *
+from .views import *
 
 
-urlpatterns = patterns('',
-    url(r'^$', WordView.as_view(), name='wordview'),
-    url(r'^getword/$', GetWordView.as_view(), name='getwordview'),
-    url(r'^settings/$', SettingsView.as_view(), name='settingsview'),
-    url(r'^savesettings/$', SaveSettingsView.as_view(), name='savesettingsview'),
-    url(r'^export/$', ExportView.as_view(), name='exportview'),
-)
+urlpatterns = [
+    path(r'', WordView.as_view(), name='wordview'),
+    path(r'getword/', GetWordView.as_view(), name='getwordview'),
+    path(r'settings/', SettingsView.as_view(), name='settingsview'),
+    path(r'savesettings/', SaveSettingsView.as_view(), name='savesettingsview'),
+    path(r'export/', ExportView.as_view(), name='exportview'),
+]
 

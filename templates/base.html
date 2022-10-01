@@ -104,7 +104,7 @@
         
         {% else %}
         {% url 'login' as login_url %}
-        <li class="{% active request login_url %}"><a href="{% url 'login' %}">Login</a></li>
+        {% comment %}<li class="{% active request login_url %}"><a href="{% url 'login' %}">Login</a></li>{% endcomment %}
         {% endif %}
         
       </ul>

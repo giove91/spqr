@@ -35,8 +35,8 @@ class Word(models.Model):
 
 
 class Result(models.Model):
-    user = models.ForeignKey(User)
-    word = models.ForeignKey(Word)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    word = models.ForeignKey(Word, on_delete=models.CASCADE)
     
     num_views = models.IntegerField(default=0)
     num_correct = models.IntegerField(default=0)

@@ -1,23 +1,18 @@
-from django.shortcuts import get_object_or_404, render, redirect, render_to_response
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.core.urlresolvers import reverse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, JsonResponse
 
-from django.views import generic
 from django.views.generic.base import View
-from django.views.generic.base import TemplateView
-from django.views.generic import ListView
 
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.views.decorators.csrf import csrf_exempt
 
 from django.contrib.auth import logout
 
 from django.db.models import Q
 
-from models import Word, Keyword
+from .models import Word, Keyword
 
 import random
-import csv
 
 
 def get_settings(request):
@@ -125,7 +120,7 @@ class SaveSettingsView(View):
             return HttpResponse(queryset.count())
         
         except Exception as E:
-            print E
+            print(E)
             return HttpResponse("Error")
     
     # FIXME: handle csrf
